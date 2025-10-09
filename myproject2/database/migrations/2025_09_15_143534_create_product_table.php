@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['root', 'admin', 'user'])->default('user');
+        Schema::create('product', function (Blueprint $table) {
+            $table->id();
+            $table->string('product_name');
+            $table->string('unit');
+            $table->string('type');
+            $table->string('information');
+            $table->integer('qty');
+
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
-        });
-    }
+    public function down(): void {}
 };

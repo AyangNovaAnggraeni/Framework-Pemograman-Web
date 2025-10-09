@@ -8,13 +8,49 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/product', [ProductController::class, 'index']);
-// Route::get('/product/create', [ProductController::class, 'create']);
-// Route::get('/product', [ProductController::class, 'store']);
-// Route::get('/product/{id}', [ProductController::class, 'show']);
-// Route::get('/product/{id}/edit', [ProductController::class, 'edit']);
-// Route::get('/product/{id}', [ProductController::class, 'update']);
-// Route::get('/product/{id}', [ProductController::class, 'destroy']);
+Route::get('/hello', function () {
+    return 'hallo dunia';
+});
+
+Route::get('/dashboard', function () {
+    return 'this is dashboard';
+})->middleware('auth');
+
+Route::get('/user/{id}', function ($id) {
+    return "User ID: " . $id;
+});
+
+
+
+
+
+// Route::get('/profile', function () {
+//     return 'This is profile page.';
+// })->name('profile');
+
+// Route::get('/redirect-to-profile', function () {
+//     return redirect()->route('profile');
+// });
+
+// Route::prefix('admin')->group(function () {
+//     Route::get('/dashboard', function () {
+//         return 'This is admin dashboard.';
+//     });
+
+//     Route::get('/profile', function () {
+//         return 'This is admin profile.';
+//     });
+// });
+
+
+
+Route::get('/product', [ProductController::class, 'product.index']);
+Route::get('/product/create', [ProductController::class, 'product.create']);
+Route::get('/product/{id}', [ProductController::class, 'show']);
+Route::get('/product/{id}/edit', [ProductController::class, 'product.edit']);
+Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+Route::get('/product/{id}', [ProductController::class, 'product.update']);
+Route::get('/product/{id}', [ProductController::class, 'product.destroy']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -29,15 +65,19 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
 // checking role
 Route::get('/admin-only', function () {
     return "Hello Admin!";
-})->middleware(['auth','role:admin']);
+})->middleware(['auth', 'role:admin']);
 
 Route::get('/user-only', function () {
     return "Hello User!";
-})->middleware(['auth','role:user']);
+})->middleware(['auth', 'role:user']);
 
 Route::get('/product/create', [ProductController::class, 'create'])
-    ->name('product-create')
+    ->name('product.index')
     ->middleware(['auth', 'role:admin']);
-Route::post('/product', [ProductController::class, 'store'])->name('product-store');
+Route::post('/product', [ProductController::class, 'store'])->name('product.store');
 
-require __DIR__.'/auth.php';
+
+Route::resource('product', ProductController::class)->middleware(['auth', 'role:admin']);
+
+
+require __DIR__ . '/auth.php';

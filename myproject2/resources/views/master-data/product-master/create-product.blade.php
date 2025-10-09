@@ -13,7 +13,7 @@
                             Product</h2>
                         <x-auth-session-status class="mb-4"
                             :status="session('success')" />
-                        <form action="{{ route('product-store')}}"
+                        <form action="{{ route('product.store')}}"
                             method="POST" class="space-y-4">
                             @csrf <!-- Laravel CSRF protection -->
                             <div class="form-group">
@@ -78,9 +78,9 @@ focus:outline-none focus:ring-2 focus:ring-offset-2
 focus:ring-indigo-500">Submit</button>
                         </form>
                     </div>
-                    @vite('resources/js/app.js') 
+                    @vite('resources/js/app.js')
 
-<!-- Include Vite's JS assets -->
+                    <!-- Include Vite's JS assets -->
                 </div>
             </div>
         </div>

@@ -15,6 +15,10 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
+                        {{ __('Product') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -43,7 +47,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -70,6 +74,10 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
+                {{ __('Product') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -89,7 +97,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                        onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
@@ -102,7 +110,7 @@
 
 
 <!-- Data master Dropdown -->
-<div class="hidden sm:flex sm:items-center sm:ms-6">
+<!-- <div class="hidden sm:flex sm:items-center sm:ms-6">
     <x-dropdown align="right" width="48">
         <x-slot name="trigger">
             <button class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none">
@@ -116,7 +124,7 @@
         </x-slot>
 
         <x-slot name="content">
-            <x-dropdown-link :href="route('product-create')">Product Master</x-dropdown-link>
+            <x-dropdown-link :href="route('product.index')">Product Master</x-dropdown-link>
         </x-slot>
     </x-dropdown>
-</div>
+</div> -->

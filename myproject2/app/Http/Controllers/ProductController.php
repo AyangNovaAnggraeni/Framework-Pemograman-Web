@@ -12,7 +12,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('layouts-percobaan.app');
+        $data = Product::all();
+        return view('master-data.product-master.index-product', compact('data'));
+        // return view('layouts-percobaan.app');
     }
 
     /**
@@ -59,6 +61,8 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         //
+        $product = Product::findOrFail($id);
+        return view('master-data.product-master.edit-product', compact('product'));
     }
 
     /**
@@ -67,6 +71,26 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $validasi_data = $request->validate([
+            'product_name' => 'required|string|max:255',
+            'unit' => 'required|string|max:50',
+            'type' => 'required|string|max:50',
+            'information' => 'nullable|string',
+            'qty' => 'required|integer',
+            'producer' => 'required|string|max:255',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update([
+            'product_name' => $request->product_name,
+            'unit' => $request->unit,
+            'type' => $request->type,
+            'information' => $request->information,
+            'qty' => $request->qty,
+            'producer' => $request->producer,
+        ]);
+
+        return redirect()->back()->with('success', 'Product updated successfully!');
     }
 
     /**
@@ -75,5 +99,9 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully!');
     }
 }
