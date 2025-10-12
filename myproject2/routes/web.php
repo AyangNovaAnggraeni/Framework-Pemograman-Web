@@ -44,13 +44,13 @@ Route::get('/user/{id}', function ($id) {
 
 
 
-Route::get('/product', [ProductController::class, 'product.index']);
-Route::get('/product/create', [ProductController::class, 'product.create']);
-Route::get('/product/{id}', [ProductController::class, 'show']);
-Route::get('/product/{id}/edit', [ProductController::class, 'product.edit']);
-Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
-Route::get('/product/{id}', [ProductController::class, 'product.update']);
-Route::get('/product/{id}', [ProductController::class, 'product.destroy']);
+// Route::get('/product', [ProductController::class, 'product.index']);
+// Route::get('/product/create', [ProductController::class, 'product.create']);
+// Route::get('/product/{id}', [ProductController::class, 'show']);
+// Route::get('/product/{id}/edit', [ProductController::class, 'product.edit']);
+// Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+// Route::get('/product/{id}', [ProductController::class, 'product.update']);
+// Route::delete('/product/{id}', [ProductController::class, 'product.destroy']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -78,6 +78,7 @@ Route::post('/product', [ProductController::class, 'store'])->name('product.stor
 
 
 Route::resource('product', ProductController::class)->middleware(['auth', 'role:admin']);
+
 
 
 require __DIR__ . '/auth.php';
