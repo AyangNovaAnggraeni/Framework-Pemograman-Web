@@ -25,6 +25,8 @@ border-gray-200">ID</th>
                         <th class="px-4 py-2 text-left text-gray-600 border
 border-gray-200">Product Name</th>
                         <th class="px-4 py-2 text-left text-gray-600 border
+border-gray-200">Product Detail</th>
+                        <th class="px-4 py-2 text-left text-gray-600 border
 border-gray-200">Unit</th>
                         <th class="px-4 py-2 text-left text-gray-600 border
 border-gray-200">Type</th>
@@ -53,21 +55,25 @@ border-gray-200">Aksi</th>
                     </script>
                     @endif
 
-                    @foreach ($data as $item)
+                    <form method="GET" action="{{ route('product.index') }}" class="mb-4 flex items-center">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk..." class="w-1/4 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <button type="submit" class="ml-2 rounded-lg bg-green-500 px-4 py-2 text-white shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">Cari</button>
+                    </form>
+
+                    @forelse ($data as $item)
                     <tr class="bg-white">
                         <td class="px-4 py-2 border border-gray-200">{{ $item->id }}</td>
-                        <td class="px-4 py-2 border border-gray-200">{{
-$item->product_name }}</td>
-                        <td class="px-4 py-2 border border-gray-200">{{
-$item->unit }}</td>
-                        <td class="px-4 py-2 border border-gray-200">{{
-$item->type }}</td>
-                        <td class="px-4 py-2 border border-gray-200">{{
-$item->information }}</td>
-                        <td class="px-4 py-2 border border-gray-200">{{
-$item->qty }}</td>
-                        <td class="px-4 py-2 border border-gray-200">{{
-$item->producer }}</td>
+                        <td class="px-4 py-2 border border-gray-200">{{ $item->product_name }}</td>
+                        <td class="border border-gray-200 px-4 py-2 over:text-blue-500 hover:underline">
+                            <a href="{{ route('product.detail', $item->id) }}">
+                                {{ $item->product_name}}
+                            </a>
+                        </td>
+                        <td class="px-4 py-2 border border-gray-200">{{ $item->unit }}</td>
+                        <td class="px-4 py-2 border border-gray-200">{{ $item->type }}</td>
+                        <td class="px-4 py-2 border border-gray-200">{{ $item->information }}</td>
+                        <td class="px-4 py-2 border border-gray-200">{{ $item->qty }}</td>
+                        <td class="px-4 py-2 border border-gray-200">{{ $item->producer }}</td>
                         <td class="px-4 py-2 border border-gray-200">
                             <a href="{{ route('product.edit', $item->id) }}"
                                 class="px-2 text-blue-600 hover:text-blue-800">Edit</a>
@@ -78,10 +84,20 @@ $item->producer }}</td>
                             </button>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <p colspan="9" class="py-6 text-center text-2xl font-bold text-red-600">
+                            No products found
+                        </p>
+                    </tr>
+                    @endforelse
                     <!-- Tambahkan baris lainnya sesuai kebutuhan -->
                 </tbody>
             </table>
+            <div class="mt-4">
+                <!-- {{ $data->links() }} -->
+                {{ $data->appends(['search' => request('search')])->links() }}
+            </div>
         </div>
     </div>
     <script>

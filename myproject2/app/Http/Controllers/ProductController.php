@@ -10,9 +10,23 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Product::all();
+        // $data = Product::all();
+        // Membuat query builder baru untuk model Product
+        $query = Product::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('product_name', 'like', '%' . $search . '%')
+                    ->orWhere('information', 'like', '%' . $search . '%')
+                    ->orWhere('producer', 'like', '%' . $search . '%');
+            });
+        }
+
+        $data = $query->paginate(2)->appends(['search' => $request->search]);
+
         return view('master-data.product-master.index-product', compact('data'));
         // return view('layouts-percobaan.app');
     }
@@ -53,6 +67,8 @@ class ProductController extends Controller
     public function show(string $id)
     {
         //
+        $product = Product::findOrFail($id);
+        return view(view: 'master-data.product-master.detail-product', data: compact(var_name: 'product'));
     }
 
     /**

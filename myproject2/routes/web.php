@@ -76,9 +76,9 @@ Route::get('/product/create', [ProductController::class, 'create'])
     ->middleware(['auth', 'role:admin']);
 Route::post('/product', [ProductController::class, 'store'])->name('product.store');
 
+Route::get(uri: '/product/{id}', action: [ProductController::class, 'show'])->name(name: "product.detail");
 
 Route::resource('product', ProductController::class)->middleware(['auth', 'role:admin']);
-
 
 
 require __DIR__ . '/auth.php';
