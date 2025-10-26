@@ -25,9 +25,56 @@ class ProductController extends Controller
             });
         }
 
-        $data = $query->paginate(2)->appends(['search' => $request->search]);
+        // Filter berdasarkan Unit
+        if ($request->filled('filter_unit')) {
+            $query->where('unit', $request->filter_unit);
+        }
 
-        return view('master-data.product-master.index-product', compact('data'));
+        // Filter berdasarkan Type
+        if ($request->filled('filter_type')) {
+            $query->where('type', $request->filter_type);
+        }
+
+        // Filter berdasarkan Producer
+        if ($request->filled('filter_producer')) {
+            $query->where('producer', $request->filter_producer);
+        }
+
+        // Sorting
+        $sort = $request->get('sort', 'id'); // default: urutkan berdasarkan nama produk
+        $direction = $request->get('direction', 'asc'); // default: ascending
+
+        // daftar kolom yang boleh disort biar aman
+        $allowedSorts = ['id', 'unit', 'type', 'information', 'qty', 'producer', 'product_name'];
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = 'product_name';
+        }
+
+        $query->orderBy($sort, $direction);
+
+        // Urutkan hasil berdasarkan nama produk (A–Z)
+        // $query->orderBy('product_name', 'asc');
+
+        // Pagination
+        $data = $query->paginate(10)->appends([
+            'search' => $request->search,
+            'filter_type' => $request->filter_type,
+            'filter_producer' => $request->filter_producer,
+            'filter_unit' => $request->filter_unit,
+            'sort' => $sort,
+            'direction' => $direction
+        ]);
+
+        // Ambil data unik untuk dropdown
+        $units = Product::select('unit')->distinct()->pluck('unit');
+        $types = Product::select('type')->distinct()->pluck('type');
+        $producers = Product::select('producer')->distinct()->pluck('producer');
+
+        $data = $query->paginate(5)->appends(['search' => $request->search]);
+
+        // return view('master-data.product-master.index-product', compact('data'));
+        return view('master-data.product-master.index-product', compact('data', 'types', 'units', 'producers'));
+
         // return view('layouts-percobaan.app');
     }
 
