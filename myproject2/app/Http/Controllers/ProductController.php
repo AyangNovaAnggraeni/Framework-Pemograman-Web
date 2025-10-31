@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Exports\ProductsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
+    public function exportExcel()
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx');
+    }
     /**
      * Display a listing of the resource.
      */

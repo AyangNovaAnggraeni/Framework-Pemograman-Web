@@ -14,6 +14,9 @@
                     Add product data
                 </a>
 
+                <a href="{{ route('product.export.excel') }}" class="btn btn-success">Export ke Excel</a>
+
+
                 <!-- Dropdown Filter Unit -->
                 <select name="filter_unit" class="rounded-lg border border-gray-300 px-7 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                     <option value="">Semua Unit</option>

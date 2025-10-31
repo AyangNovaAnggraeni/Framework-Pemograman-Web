@@ -80,5 +80,6 @@ Route::get(uri: '/product/{id}', action: [ProductController::class, 'show'])->na
 
 Route::resource('product', ProductController::class)->middleware(['auth', 'role:admin']);
 
+Route::get(uri: '/product/export/excel', action: [ProductController::class, 'exportExcel'])->name(name: 'product.export.excel');
 
 require __DIR__ . '/auth.php';
