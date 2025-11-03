@@ -6,12 +6,46 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Exports\ProductsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Spatie\Browsershot\Browsershot;
 
 class ProductController extends Controller
 {
+    public function exportJpg()
+    {
+        $products = Product::all();
+
+        $html = view('master-data.product-master.export-product-jpg', compact('products'))->render();
+
+        $path = storage_path('app/public/product_report.jpg');
+
+        $html = view('master-data.product-master.export-product-jpg', [
+            'products' => $products,
+            'generatedAt' => now(),
+        ])->render();
+
+
+        Browsershot::html($html)
+            ->windowSize(1200, 800) // adjust width and height as needed
+            ->save($path);
+
+        return response()->download($path)->deleteFileAfterSend();
+    }
+
+    public function exportPdf()
+    {
+        $products = Product::all();
+
+        $pdf = Pdf::loadView('master-data.product-master.export-product-pdf', [
+            'products' => $products
+        ]);
+
+        return $pdf->download('product_report.pdf');
+    }
+
     public function exportExcel()
     {
-        return Excel::download(new ProductsExport, 'products.xlsx');
+        return Excel::download(new ProductsExport, 'product_report.xlsx');
     }
     /**
      * Display a listing of the resource.

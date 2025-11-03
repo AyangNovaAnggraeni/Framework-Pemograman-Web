@@ -82,4 +82,10 @@ Route::resource('product', ProductController::class)->middleware(['auth', 'role:
 
 Route::get(uri: '/product/export/excel', action: [ProductController::class, 'exportExcel'])->name(name: 'product.export.excel');
 
+
+Route::get(uri: '/product/export/pdf', action: [ProductController::class, 'exportPdf'])->name(name: 'export.pdf');
+
+Route::get('/export-product-jpg', [ProductController::class, 'exportJpg'])
+    ->name('export.product.jpg');
+
 require __DIR__ . '/auth.php';

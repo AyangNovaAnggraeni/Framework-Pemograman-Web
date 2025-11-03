@@ -15,6 +15,14 @@
                 </a>
 
                 <a href="{{ route('product.export.excel') }}" class="btn btn-success">Export ke Excel</a>
+                <a href="{{ route('export.pdf') }}" class="btn btn-danger mb-3">
+                    Export PDF
+                </a>
+
+                <a href="{{ route('export.product.jpg') }}" class="btn btn-danger">
+                    Export JPG
+                </a>
+
 
 
                 <!-- Dropdown Filter Unit -->
