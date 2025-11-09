@@ -113,6 +113,8 @@
                             </a>
                         </th>
 
+                        <!-- <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Supplier Name</th> -->
+
                         {{-- Product Detail (tidak sortable) --}}
                         <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Product Detail</th>
 
@@ -211,6 +213,8 @@
                             </a>
                         </th>
 
+                        <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Supplier Name</th>
+
                         {{-- Aksi (tidak sortable) --}}
                         <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Aksi</th>
                     </tr>
@@ -240,11 +244,13 @@
                                 {{ $item->product_name}}
                             </a>
                         </td>
+                        <!-- <td class="px-4 py-2 border border-gray-200">{{ $item->suppliers->supllier_name ?? '-' }}</td> -->
                         <td class="px-4 py-2 border border-gray-200">{{ $item->unit }}</td>
                         <td class="px-4 py-2 border border-gray-200">{{ $item->type }}</td>
                         <td class="px-4 py-2 border border-gray-200">{{ $item->information }}</td>
                         <td class="px-4 py-2 border border-gray-200">{{ $item->qty }}</td>
                         <td class="px-4 py-2 border border-gray-200">{{ $item->producer }}</td>
+                        <td class="px-4 py-2 border border-gray-200">{{ $item->supplier->supplier_name ?? '-' }}</td>
                         <td class="px-4 py-2 border border-gray-200">
                             <a href="{{ route('product.edit', $item->id) }}"
                                 class="px-2 text-blue-600 hover:text-blue-800">Edit</a>

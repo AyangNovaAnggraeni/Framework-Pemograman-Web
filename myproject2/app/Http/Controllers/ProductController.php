@@ -8,6 +8,7 @@ use App\Exports\ProductsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Spatie\Browsershot\Browsershot;
+use App\Models\Supplier;
 
 class ProductController extends Controller
 {
@@ -54,7 +55,8 @@ class ProductController extends Controller
     {
         // $data = Product::all();
         // Membuat query builder baru untuk model Product
-        $query = Product::query();
+        // $query = Product::query();
+        $query = Product::with('supplier');
 
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
@@ -112,8 +114,9 @@ class ProductController extends Controller
 
         $data = $query->paginate(5)->appends(['search' => $request->search]);
 
+        // return $data;
         // return view('master-data.product-master.index-product', compact('data'));
-        return view('master-data.product-master.index-product', compact('data', 'types', 'units', 'producers'));
+        return view('master-data.product-master.index-product', compact('data', 'types', 'units', 'producers',));
 
         // return view('layouts-percobaan.app');
     }
@@ -123,7 +126,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('master-data.product-master.create-product');
+        $suppliers = Supplier::all();
+        return view('master-data.product-master.create-product', compact('suppliers'));
     }
 
     /**
@@ -139,6 +143,7 @@ class ProductController extends Controller
             'information' => 'nullable|string',
             'qty' => 'required|integer',
             'producer' => 'required|string|max:255',
+            'supplier_id' => 'required|exists:suppliers,id',
         ]);
 
         // simpan data ke database
@@ -164,7 +169,8 @@ class ProductController extends Controller
     {
         //
         $product = Product::findOrFail($id);
-        return view('master-data.product-master.edit-product', compact('product'));
+        $suppliers = Supplier::all();
+        return view('master-data.product-master.edit-product', compact('product', 'suppliers'));
     }
 
     /**
