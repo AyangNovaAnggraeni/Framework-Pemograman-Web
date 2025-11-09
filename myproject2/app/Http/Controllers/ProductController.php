@@ -196,6 +196,7 @@ class ProductController extends Controller
             'information' => $request->information,
             'qty' => $request->qty,
             'producer' => $request->producer,
+            'supplier_id' => $request->supplier_id,
         ]);
 
         return redirect()->back()->with('success', 'Product updated successfully!');

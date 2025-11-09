@@ -50,7 +50,10 @@
                                 <select id="supplier_id" name="supplier_id" class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                                     <option value="" disabled selected>Select a supplier</option>
                                     @foreach($suppliers as $supplier)
-                                    <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                                    <option value="{{ $supplier->id }}"
+                                        {{ old('supplier_id', $product->supplier_id) == $supplier->id ? 'selected' : '' }}>
+                                        {{ $supplier->supplier_name }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
